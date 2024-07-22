@@ -1,0 +1,18 @@
+<body>
+  <div class="playCard mt-4">
+    <div class="border-2 border-white rounded-lg p-2">
+      <% let songCard = song[0] ; %>
+      <a target="_blank" href="https://www.google.com/search?q=<%=songCard.title%>+-+<%=songCard.artist%>"><h2 class="text-2xl text-center underline mb-4 font-bold text-white">
+          <%= songCard.title %></h2>
+      </a>
+      <img class="mb-2 rounded-lg" src="<%= songCard.urlCoverPic %>" alt="" />
+      <p class="text-white"><%= songCard.artist %> • <%= songCard.year %></p>
+      <div>
+        <audio class="hidden" id="<%= songCard.id %>" src="<%= songCard.urlSong %>" controls></audio>
+      </div>
+      <form action="/play/<%=songCard.id%>?_method=DELETE" method="post">
+        <button class="bg-red-500 w-16 h-8 font-semibold mt-4 rounded-lg">delete</button>
+      </form>
+    </div>
+  </div>
+</body>

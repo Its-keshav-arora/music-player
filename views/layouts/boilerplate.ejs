@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Music Player</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/style.css" />  <!--Linked style.css for footer,header & content-->
+    <link rel="stylesheet" href="/mainPage.css" />  <!--Linked mainPage.css for mainContent-->
+    <link rel="stylesheet" href="/navbar.css">     <!--Linked it for navbar designing-->
+    <link rel="stylesheet" href="/sidebar.css">     <!--Linked it for Sidebar designing-->
+    <link rel="stylesheet" href="/addSong.css">     <!--Linked it for formpage of addSong-->
+    <link rel="stylesheet" href="/playSong.css">
+    <link rel="stylesheet" href="/controllers.css">
+    <!-- font-awesome cdn tag -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  </head>
+  <body class="flex h-screen flex-col">
+    <!-- Included the navbar -->
+    <div><%- include("../includes/navbar.ejs") %></div>
+
+    <div class="flex">
+        <!-- Included the sidebar -->
+      <%- include("../includes/sidebar.ejs") %>
+      <div class="mainContent w-full">
+        <!-- Here content in the body tags of views dir files will be shown -->
+        <%- body %>
+        <!-- Included the music player controllers -->
+        <%- include("../includes/musicPlayer.ejs") %>
+        <!-- Included the footer -->
+        <%- include("../includes/footer.ejs") %>
+      </div>
+    </div>
+  </body>
+</html>

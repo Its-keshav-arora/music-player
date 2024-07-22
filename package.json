@@ -1,0 +1,16 @@
+{
+  "dependencies": {
+    "cloudinary": "^1.21.0",
+    "dotenv": "^16.4.5",
+    "ejs": "^3.1.10",
+    "express": "^4.19.2",
+    "express-ejs-layouts": "^2.5.1",
+    "method-override": "^3.0.0",
+    "mongoose": "^8.5.1",
+    "multer": "^1.4.5-lts.1",
+    "multer-storage-cloudinary": "^4.0.0",
+    "path": "^0.12.7",
+    "uuid": "^10.0.0",
+    "uuidv4": "^6.2.13"
+  }
+}

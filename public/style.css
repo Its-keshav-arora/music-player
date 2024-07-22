@@ -1,0 +1,45 @@
+body {
+  background-image: url("/images/backgroundImage.jpg");
+  background-size: cover;
+  overflow: hidden;
+  max-height: 100%;
+}
+
+/* styling sidebar */
+.sidebar {
+  height: 77vh;
+  position: sticky;
+  width: 25vw;
+  min-width: 250px;
+}
+
+/* styling MainContent */
+.mainContent {
+  overflow-y: scroll;
+  max-height: 77vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.mainContent::-webkit-scrollbar {
+  width: 15px; /* width of the scrollbar */
+}
+
+.mainContent::-webkit-scrollbar-track {
+  background: transparent; /* color of the track */
+}
+
+.mainContent::-webkit-scrollbar-thumb {
+  background: #555; /* color of the thumb */
+}
+
+/* Styling Footer */
+.KeshavArora {
+  color: yellow;
+  transition: text-shadow 0.5s ease-in-out;
+}
+
+.KeshavArora:hover {
+  text-shadow: 2px 2px 10px yellow;
+}

@@ -1,0 +1,102 @@
+<div class="musicPlayer w-full flex-col justify-center items-center">
+  <div class="controllers flex bg-black space-x-8 ml-80">
+    <button id="previous">
+      <img class="h-5" src="/images/Controllers/previous.png" alt="" />
+    </button>
+    <button id="play">
+      <img class="play h-8" src="/images/Controllers/play.png" alt="" />
+    </button>
+    <button id="pause" class="hidden relative bottom-2">
+      <i
+        class="fa-solid fa-pause fa-flip-vertical fa-2xl"
+        style="color: #ffffff"
+      ></i>
+    </button>
+    <form action="/play/next">
+      <button id="next">
+        <img class="h-5" src="/images/Controllers/next.png" alt="" />
+      </button>
+    </form>
+  </div>
+  <div class="flex relative left-40 items-center space-x-2">
+    <span class="currentTime text-white">0:00</span>
+    <input id="musicBar" type="range" min="0" value="0" />
+    <span class="duration text-white">0:00</span>
+  </div>
+</div>
+
+<script>
+  // Extracting the Current Path to play the music in our front page
+  const pathname = window.location.pathname;
+  const parts = pathname.split("/");
+  const musicId = parts[parts.length - 1]; // This will be the music ID
+  const musicBar = document.getElementById("musicBar");
+  const currentTimeSpan = document.querySelector(".currentTime");
+  const durationSpan = document.querySelector(".duration");
+
+  // Extracted the music using music id.
+  const music = document.getElementById(musicId);
+
+  // Player buttons
+  const play = document.getElementById("play");
+  const pause = document.getElementById("pause");
+  const restart = document.getElementById("previous");
+
+  // Function to format time in mm:ss
+  function formatTime(seconds) {
+    const minutes = Math.floor(seconds / 60);
+    const secs = Math.floor(seconds % 60);
+    return `${minutes}:${secs < 10 ? "0" : ""}${secs}`;
+  }
+
+  // Update duration once metadata is loaded
+  music.addEventListener("loadedmetadata", () => {
+    durationSpan.innerText = formatTime(music.duration);
+    musicBar.max = music.duration;
+  });
+
+  // Update current time during playback
+  music.addEventListener("timeupdate", () => {
+    currentTimeSpan.innerText = formatTime(music.currentTime);
+    musicBar.value = music.currentTime;
+  });
+
+  play.addEventListener("click", () => {
+    if (music.paused) {
+      music.play();
+      play.classList.add("hidden");
+      pause.classList.remove("hidden");
+      pause.classList.add("mr-7", "mt-3");
+    } else {
+      music.pause();
+      play.classList.remove("hidden");
+      pause.classList.add("hidden");
+    }
+  });
+
+  pause.addEventListener("click", () => {
+    if (!music.paused) {
+      music.pause();
+      play.classList.remove("hidden");
+      pause.classList.add("hidden");
+    }
+  });
+
+  restart.addEventListener("click", () => {
+    music.currentTime = 0;
+    currentTimeSpan.innerText = formatTime(music.currentTime);
+  });
+
+  // Handle seekbar changes
+  musicBar.addEventListener("input", () => {
+    music.currentTime = musicBar.value;
+  });
+
+  // Handling After the completion of music, it will again show the play button and hides the pause button
+  music.addEventListener("ended", () => {
+    play.classList.remove("hidden");
+    pause.classList.add("hidden");
+  });
+
+
+</script>

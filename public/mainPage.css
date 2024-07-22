@@ -1,0 +1,18 @@
+.song
+{
+    background-color:#19191860;
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    margin: 0 2rem 1rem 1rem !important;
+    color:white;
+    width:14rem;
+    transition: 0.5s;
+}
+.song p
+{
+    color:rgb(204, 204, 204);
+}
+.song:hover
+{
+    border: 2px solid rgba(255, 255, 255, 0.8);
+    box-shadow: 4px 4px 10px black;
+}

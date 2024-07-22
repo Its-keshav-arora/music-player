@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Music Player</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.0.4/dist/tailwind.min.css"
+    />
+  </head>
+  <body>
+    <h1 class="text-3xl text-center mt-12 mb-4 font-bold text-green-500">
+      Add Song
+    </h1>
+    <div class="flex items-center justify-center h-full w-full">
+      <form
+        action="/add"
+        method="post"
+        class="addSongForm w-1/2"
+        enctype="multipart/form-data"
+      >
+        <div class="title">
+          <label class="pr-1" for="title">Title</label> &nbsp;
+          <input
+            class="rounded-lg h-8 mb-4 w-3/4 pl-4"
+            name="title"
+            type="text"
+            id="title"
+            spellcheck="false"
+            placeholder="Enter song title"
+          />
+        </div>
+        <div class="artist">
+          <label for="artist">Artist</label> &nbsp;
+          <input
+            name="artist"
+            type="text"
+            id="artist"
+            class="rounded-lg h-8 mb-4 w-3/4 pl-4"
+            spellcheck="false"
+            placeholder="Artist's name"
+          />
+        </div>
+        <div class="release mb-8">
+          <label class="pr-4" for="year">Year</label>
+          <input
+            class="rounded-lg h-8 mb-4 w-3/4 pl-4"
+            name="year"
+            id="year"
+            type="number"
+            placeholder="release year"
+          />
+        </div>
+        <div class="release mb-8">
+          <label class="pr-11" for="audio">Song</label>
+          <input
+            accept="audio/*"
+            class="text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-violet-50 file:text-violet-700 hover:file:bg-violet-100"
+            name="audio"
+            id="audio"
+            type="file"
+            placeholder="choose your file"
+          />
+        </div>
+        <div class="release mb-8">
+          <label class="pr-4" for="audio">Cover Pic</label>
+          <input
+            class="text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-violet-50 file:text-violet-700 hover:file:bg-violet-100"
+            name="coverPic"
+            id="coverPic"
+            type="file"
+            placeholder="choose your file"
+          />
+        </div>
+        <div class="flex justify-between">
+          <button type="button" class="clearbtn bg-red-500 w-20 rounded-lg h-8">
+            Clear
+          </button>
+          <button
+            class="bg-green-500 w-20 rounded-lg h-8 relative right-24"
+            type="submit"
+          >
+            Add
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <script>
+      let clearBtn = document.getElementsByClassName("clearbtn")[0];
+      let form = document.getElementsByClassName("addSongForm")[0];
+      clearBtn.addEventListener("click", () => {
+        form.reset();
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,12 @@
+.playCard
+{
+    display:flex;
+    flex-direction: column;
+    align-items: center;;
+}
+
+.playCard img
+{
+    height:23rem;
+    width:23rem;
+}

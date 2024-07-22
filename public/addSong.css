@@ -1,0 +1,11 @@
+.addSongForm
+{
+    border:2px solid white;
+    padding:3rem;
+    border-radius: 2rem;
+}
+
+.addSongForm label
+{
+    color: white;
+}

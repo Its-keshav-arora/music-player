@@ -1,0 +1,24 @@
+.musicPlayer {
+  display: flex;
+  justify-content: center;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 10vh;
+  width: 100vw;
+  background-color: black;
+}
+
+.play {
+  transition: 0.5s;
+}
+
+.play:hover {
+  height: 2.2rem;
+}
+#musicBar {
+  width: 20rem;
+}
+
+
+
