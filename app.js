@@ -13,6 +13,54 @@ const { storage, cloudinary } = require("./cloudConfig");
 const multer = require("multer");
 const upload = multer({ storage });
 
+// Starting a session using express-session:
+const session = require("express-session");
+const sessionOptions = {
+  secret: process.env.EXPRESS_SECRET,
+  resave: false,
+  saveUninitialized: true,
+  cookie: {
+    expires: Date.now() + 1000 * 60 * 60 * 24 * 7, // 7 days tkk login rahega mera user.
+    maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days
+    httpOnly: true, // This means that the cookie is only accessible by the server.
+  },
+};
+app.use(session(sessionOptions));
+// now we can see that we have started an express session, and we have provided a secret key to it.
+// in the cookies tab under application section. we can see that a cookie is created with the name connect.sid
+// and the value is a long string. This is the session id.
+// Note: In the same browser, if we open a new tab and go to the same website, we can see that the session id is same.
+
+// for login/signup and authentication:
+const passport = require("passport"); // used for authentication
+const LocalStrategy = require("passport-local");
+const User = require("./models/User");
+
+app.use(passport.initialize()); // we have to do it after app.use(sessionOptions).
+app.use(passport.session());
+passport.use(new LocalStrategy(User.authenticate())); // User.authenticate() is a method provided by passport-local-mongoose.
+
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
+// Middleware to make user object available in all views
+app.use((req, res, next) => {
+  res.locals.currentUser = req.user; // Adds req.user to the local variables
+  next();
+});
+
+//now moving to login/signup Page.
+
+// for alerts that operation has succeeded or failed:
+// const flash = require("connect-flash");
+// app.use(flash()); // remember, it has to be used after app.use(sessionOptions) and before app.use(passport.session());
+// anything written inside the app.use() is a middleware. It will be called after every request on the webpage.
+
+// app.use((req,res,next) => {
+//   res.locals.success = (req.flash('success'));
+//   next();
+// });
+
 // Importing the mongoose model containing data:
 const MusicPlayer = require("./models/SongCard");
 const toUpperCase = require("./utilities/toUpperCase");
@@ -46,62 +94,13 @@ app.get("/", async (req, res) => {
   res.render("home", { songs });
 });
 
-// Add Music Route
-app.get("/add", (req, res) => {
-  res.render("addSong");
-});
-
-// Adding music to the db
-
-app.post(
-  "/add",
-  upload.fields([
-    { name: "audio", maxCount: 1 },
-    { name: "coverPic", maxCount: 1 },
-  ]),
-  async (req, res) => {
-    let { title, artist, year } = req.body;
-    title = toUpperCase(title);
-    const id = uuidv4();
-    let urlSong = "";
-    let urlCoverPic = "";
-
-    if (req.files["audio"]) {
-      urlSong = req.files["audio"][0].path;
-    } else {
-      return res.status(400).send("No audio file uploaded.");
-    }
-
-    if (req.files["coverPic"]) {
-      urlCoverPic = req.files["coverPic"][0].path;
-    } else {
-      return res.status(400).send("No cover picture uploaded.");
-    }
-
-    let newMusic = new MusicPlayer({
-      id: id,
-      title: title,
-      artist: artist,
-      year: year,
-      urlSong: urlSong,
-      urlCoverPic: urlCoverPic,
-    });
-
-    await newMusic.save();
-    res.redirect("/");
-  }
-);
-
 // playing page route
 app.get("/play/:id", async (req, res) => {
   const { id } = req.params;
+  // res.locals.currentUser = req.user;
   const song = await MusicPlayer.find({ id: id });
-  const allSongs = await MusicPlayer.find({});
-  const index = findIndexOfObject(allSongs, id);
-  const nextSong = allSongs[index + 1];
-  res.render("play", {song, nextSong});
+  res.render("play", { song });
 });
-
 
 // Search Music using Navbar Route:
 app.get("/search", async (req, res) => {
@@ -114,21 +113,139 @@ app.get("/search", async (req, res) => {
   res.render("search", { song });
 });
 
-// login route
-app.get("/login", (req, res) => {
-  res.render("login");
-});
-
 // register route
 app.get("/register", (req, res) => {
   res.render("register");
 });
 
+app.post("/register", async (req, res) => {
+  let { username, password, email } = req.body;
+  const newUser = new User({ email, username });
+  await User.register(newUser, password);
+  req.login(newUser, (err) => {
+    res.send(err);
+  });
+  // This code will automatically log in the user after registration.
+  res.redirect("/");
+});
+
+// Add Music Route
+app.get("/add", (req, res) => {
+  if (req.isAuthenticated()) {
+    res.render("addSong");
+  } else {
+    res.redirect("/login");
+  }
+});
+
+// Adding music to the db
+
+app.post(
+  "/add",
+  upload.fields([
+    { name: "audio", maxCount: 1 },
+    { name: "coverPic", maxCount: 1 },
+  ]),
+  async (req, res) => {
+    let { title, artist, year } = req.body;
+    const author = req.user.username;
+    title = toUpperCase(title);
+    const id = uuidv4();
+    let urlSong = "";
+    let urlCoverPic = "";
+    let songPublicId = "";
+    let coverPicPublicId = "";
+
+    if (req.files["coverPic"]) {
+      const result = await cloudinary.uploader.upload(req.files["coverPic"][0].path, {
+        resource_type: "image"
+      });
+      urlCoverPic = result.secure_url;
+      coverPicPublicId = result.public_id;
+    } else {
+      return res.status(400).send("No cover picture uploaded.");
+    }
+
+    if (req.files["audio"]) {
+      const result = await cloudinary.uploader.upload(req.files["audio"][0].path, {
+        resource_type: "video"
+      });
+      urlSong = result.secure_url;
+      songPublicId = result.public_id;
+    } else {
+      return res.status(400).send("No audio file uploaded.");
+    }
+
+    let newMusic = new MusicPlayer({
+      id: id,
+      title: title,
+      artist: artist,
+      year: year,
+      urlSong: urlSong,
+      urlCoverPic: urlCoverPic,
+      songPublicId: songPublicId,
+      coverPicPublicId: coverPicPublicId,
+      author: author,
+    });
+
+    await newMusic.save();
+    res.redirect("/");
+  }
+);
+
+
+// login route
+app.get("/login", (req, res) => {
+  res.render("login");
+});
+app.post(
+  "/login",
+  passport.authenticate("local", { failureRedirect: "/login" }),
+  (req, res) => {
+    res.redirect("/");
+  }
+);
+
+// logout route
+app.get("/logout", (req, res) => {
+  req.logout((err) => {
+    console.log(err);
+  });
+  res.redirect("/");
+});
+
 // Song delete route
 app.delete("/play/:id", async (req, res) => {
-  let { id } = req.params;
-  await MusicPlayer.findOneAndDelete({ id: id });
-  res.redirect("/");
+  if (req.isAuthenticated()) {
+    let { id } = req.params;
+    try {
+      const music = await MusicPlayer.findOneAndDelete({ id: id });
+
+      if (music) {
+        // Delete files from Cloudinary
+        if (music.songPublicId) {
+          const resultVideo = await cloudinary.uploader.destroy(music.songPublicId, { resource_type: "video" });
+          // console.log("Video delete result:", resultVideo);
+        }
+        if (music.coverPicPublicId) {
+          const resultImage = await cloudinary.uploader.destroy(music.coverPicPublicId, { resource_type: "image" });
+          // console.log("Image delete result:", resultImage);
+        }
+        res.redirect("/");
+      } else {
+        res.status(404).send("Music not found.");
+      }
+    } catch (error) {
+      console.error("Error deleting music:", error);
+      res.status(500).send("Internal Server Error");
+    }
+  } else {
+    res.redirect("/login");
+  }
+  // Alternative to use passport as middleware to check whether user has logged in or not.
+  // let { id } = req.params;
+  // await MusicPlayer.findOneAndDelete({ id: id });
+  // res.redirect("/");
 });
 
 app.listen(port, () => {

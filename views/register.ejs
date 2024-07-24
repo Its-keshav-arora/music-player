@@ -1,34 +1,41 @@
+<style>
+  @media (max-width: 1290px) {
+    .addSongForm input {
+      width: 100% !important;
+    }
+  }
+</style>
+
 <body>
   <h1 class="text-3xl text-center mt-12 mb-4 font-bold text-green-500">
     Signup
   </h1>
   <div class="flex items-center justify-center h-full w-full">
     <form action="" method="post" class="addSongForm w-1/2">
+      <div class="username">
+        <label class="mr-6" for="username">username</label> &nbsp;
+        <input
+          class="rounded-lg h-8 mb-4 w-3/4 pl-4"
+          name="username"
+          type="text"
+          id="username"
+          spellcheck="false"
+          placeholder="keshav11y"
+        />
+      </div>
       <div class="email">
         <label class="mr-14" for="email">Email</label> &nbsp;
         <input
           class="rounded-lg h-8 mb-4 w-3/4 pl-4"
           name="email"
           type="text"
-          id="title"
+          id="email"
           spellcheck="false"
           placeholder="abc@gmail.com"
         />
       </div>
       <div class="password">
         <label class="mr-6" for="password ">password: </label> &nbsp;
-        <input
-          name="password"
-          type="text"
-          id="password"
-          class="rounded-lg h-8 mb-4 w-3/4 pl-4"
-          spellcheck="false"
-          placeholder="12345678"
-          placeholder="12345678"
-        />
-      </div>
-      <div class="password">
-        <label for="password">Confirm Pass: </label> &nbsp;
         <input
           name="password"
           type="text"

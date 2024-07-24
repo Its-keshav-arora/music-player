@@ -4,3 +4,37 @@
     margin:0 1rem 0 1rem;
     box-shadow: 2px 2px 10px black;
 }
+
+@media (max-width:1020px)
+{
+    .search
+    {
+        display:none;
+    }
+}
+
+.searchBar
+{
+    width:24rem;
+    min-width: 200px;
+}
+
+
+@media(max-width:1100px)
+{
+    .loginLogoutLabels
+    {
+        display:none;
+    }
+}
+
+@media(max-width:600px)
+{
+    .searchBar
+    {
+        width: 60vw;
+    }
+    {
+        margin:0;
+    }
+}

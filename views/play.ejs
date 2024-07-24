@@ -10,8 +10,11 @@
       <div>
         <audio class="hidden" id="<%= songCard.id %>" src="<%= songCard.urlSong %>" controls></audio>
       </div>
-      <form action="/play/<%=songCard.id%>?_method=DELETE" method="post">
-        <button class="bg-red-500 w-16 h-8 font-semibold mt-4 rounded-lg">delete</button>
+      <form class="flex justify-between mt-4" action="/play/<%=songCard.id%>?_method=DELETE" method="post">
+        <% if(currentUser && currentUser.username == songCard.author ) { %>
+        <button class="bg-red-500 w-16 h-8 font-semibold rounded-lg">delete</button>
+        <% } %>
+        <span class="text-white">Added by: <%= songCard.author%></span>
       </form>
     </div>
   </div>

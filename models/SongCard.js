@@ -24,7 +24,20 @@ const MusicSchema = new mongoose.Schema({
   urlCoverPic : {
     type:String,
     required : true,
+  },
+  author: {
+    type: String,
+    required: true,
+  },
+  coverPicPublicId: {
+    type: String,
+    required: true,
+  },
+  songPublicId: {
+    type: String,
+    required: true,
   }
+
 });
 
 const MusicModel = mongoose.model("Music", MusicSchema);

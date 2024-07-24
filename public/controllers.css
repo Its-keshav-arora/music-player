@@ -22,3 +22,59 @@
 
 
 
+.controllers
+{
+  margin-left: 20rem;
+}
+
+.musicBar
+{
+  margin-left: 20rem;
+}
+
+@media (max-width: 870px)
+{
+  .musicPlayer
+  {
+    margin-left: 0;
+  }
+  
+}
+
+@media (max-width: 770px)
+{
+  .controllers 
+  {
+    margin-left: 0;
+    position:absolute;
+    left:40%;
+    top:1rem;
+  }
+  .play
+  {
+    position:relative;
+    bottom:0.5rem;
+  }
+  .controllers{
+    bottom:3rem;
+  }
+  .musicBar
+  {
+    margin:0;
+    margin-top: 2.43rem;
+  }
+  
+}
+
+
+@media(max-width:430px)
+{
+  .musicBar input
+  {
+    width:65vw !important;
+  }
+  .controllers
+  {
+    left: 33%;
+  }
+}

@@ -2,13 +2,13 @@
   class="h-20 sticky rounded-lg navbar top-1 my-1 flex justify-between items-center"
 >
   <div>
-    <a class="ml-8 text-lg" href="/"> Home </a>
+    <a class="text-lg ml-8" href="/"> Home </a>
   </div>
-  <div class="">
-    <form action="/search" method="get">
-      <label for="search">Search</label> &nbsp;
+  <div>
+    <form class="searchBox" action="/search" method="get">
+      <label class="cursor-pointer search" for="search">Search</label> &nbsp;
       <input
-        class="w-96 h-8 rounded-full pl-4"
+        class="searchBar h-8 rounded-full pl-4"
         type="text"
         id="search"
         spellcheck="false"
@@ -20,8 +20,12 @@
       </button>
     </form>
   </div>
-  <div class="mr-8 text-lg">
+  <div class="mr-8  loginLogoutLabels">
+    <% if(currentUser) { %>
+  <span class="mr-8 cursor-pointer"><%= currentUser.username %></span>
+    <% } %>
     <a class="mr-8" href="/add">Add Song</a>
+    <% if(!currentUser) { %>
     <div class="auth inline">
       <form class="inline" action="/login">
         <button class="mr-8">Login</button>
@@ -29,6 +33,13 @@
       <form class="inline" action="/register">
         <button>Signup</button>
       </form>
+      <% } %> <% if(currentUser) { %>
+
+      <form class="inline" method="get" action="/logout">
+        <button>Logout</button>
+      </form>
+
+      <% } %>
     </div>
   </div>
 </nav>
