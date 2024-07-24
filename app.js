@@ -74,15 +74,39 @@ app.set("layout", "layouts/boilerplate"); // Specify the default layout file
 app.use(methodOverride("_method")); // Method override
 
 // Connect to MongoDB
-main()
-  .then((res) => {
-    console.log("connected to db");
-  })
-  .catch((err) => console.log(err));
+// main()
+//   .then((res) => {
+//     console.log("connected to db");
+//   })
+//   .catch((err) => console.log(err));
 
-async function main() {
-  await mongoose.connect("mongodb://127.0.0.1:27017/MusicPlayer");
+// async function main() {
+  //   await mongoose.connect("mongodb://127.0.0.1:27017/MusicPlayer");
+  // }
+
+
+  
+// connecting to mongodb atlas:
+// MongoDB Atlas connection string
+// const mongoose = require("mongoose");
+
+const uri = `mongodb+srv://keshav11y:${process.env.MONGO_Db_PASSWORD}@cluster0.xlw8bpl.mongodb.net/MusicPlayer?retryWrites=true&w=majority&appName=Cluster0`;
+async function connectDB() {
+  try {
+    await mongoose.connect(uri, {
+      // useNewUrlParser: true,
+      // useUnifiedTopology: true,
+    });
+    console.log("Connected to MongoDB Atlas!");
+  } catch (error) {
+    console.error("Error connecting to MongoDB Atlas:", error);
+  }
 }
+
+connectDB();
+
+
+// 
 
 // Middleware
 app.use(express.static(path.join(__dirname, "public")));
