@@ -13,6 +13,23 @@ const { storage, cloudinary } = require("./cloudConfig");
 const multer = require("multer");
 const upload = multer({ storage });
 
+
+// Connect to MongoDB
+const dbUrl = process.env.ATLASDB_URL;
+main()
+  .then((res) => {
+    console.log("connected to db");
+  })
+  .catch((err) => console.log(err));
+
+async function main() {
+    await mongoose.connect(dbUrl);
+  }
+
+
+
+
+
 // Starting a session using express-session:
 const session = require("express-session");
 const sessionOptions = {
@@ -83,28 +100,6 @@ app.use(methodOverride("_method")); // Method override
 // async function main() {
   //   await mongoose.connect("mongodb://127.0.0.1:27017/MusicPlayer");
   // }
-
-
-  
-// connecting to mongodb atlas:
-// MongoDB Atlas connection string
-// const mongoose = require("mongoose");
-
-const uri = `mongodb+srv://keshav11y:${process.env.MONGO_Db_PASSWORD}@cluster0.xlw8bpl.mongodb.net/MusicPlayer?retryWrites=true&w=majority&appName=Cluster0`;
-async function connectDB() {
-  try {
-    await mongoose.connect(uri, {
-      // useNewUrlParser: true,
-      // useUnifiedTopology: true,
-    });
-    console.log("Connected to MongoDB Atlas!");
-  } catch (error) {
-    console.error("Error connecting to MongoDB Atlas:", error);
-  }
-}
-
-connectDB();
-
 
 // 
 
