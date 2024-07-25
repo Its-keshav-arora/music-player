@@ -51,7 +51,7 @@ app.use(session(sessionOptions));
 // for login/signup and authentication:
 const passport = require("passport"); // used for authentication
 const LocalStrategy = require("passport-local");
-const User = require("./models/User");
+const User = require("./models/user");
 
 app.use(passport.initialize()); // we have to do it after app.use(sessionOptions).
 app.use(passport.session());
