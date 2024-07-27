@@ -128,6 +128,10 @@ app.get("/search", async (req, res) => {
   music = music.trim();
   // console.log(music);
   let song = await MusicPlayer.find({ title: music });
+  if(song.length == 0)
+  {
+    return res.render("notFound");
+  }
   // console.log(song);
   res.render("search", { song });
 });

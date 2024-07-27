@@ -1,8 +1,11 @@
 <nav
   class="h-20 sticky rounded-lg navbar top-1 my-1 flex justify-between items-center"
 >
+  <button class="burger" id="burger">
+    <i class="fa-solid fa-bars fa-xl ml-4" style="color: #ffffff"></i>
+  </button>
   <div>
-    <a class="text-lg ml-8" href="/"> Home </a>
+    <a class="text-lg ml-8 loginLogoutLabels" href="/"> Home </a>
   </div>
   <div>
     <form class="searchBox" action="/search" method="get">
@@ -12,7 +15,7 @@
         type="text"
         id="search"
         spellcheck="false"
-        placeholder="Patiala Peg"
+        placeholder="Search for a song"
         name="music"
       />
       <button type="submit">
@@ -20,9 +23,9 @@
       </button>
     </form>
   </div>
-  <div class="mr-8  loginLogoutLabels">
+  <div class="mr-8 loginLogoutLabels">
     <% if(currentUser) { %>
-  <span class="mr-8 cursor-pointer"><%= currentUser.username %></span>
+    <span class="mr-8 cursor-pointer"><%= currentUser.username %></span>
     <% } %>
     <a class="mr-8" href="/add">Add Song</a>
     <% if(!currentUser) { %>
@@ -34,12 +37,71 @@
         <button>Signup</button>
       </form>
       <% } %> <% if(currentUser) { %>
-
       <form class="inline" method="get" action="/logout">
         <button>Logout</button>
       </form>
-
       <% } %>
     </div>
   </div>
 </nav>
+
+<!-- Mobile Navbar -->
+<div id="mobileNav" class="mobNav hidden">
+  <button class="close" id="closeNav">
+    <i class="fa-solid fa-times fa-xl"></i>
+  </button>
+  <div class="flex-col ml-8 mt-12">
+    <div class="mb-4">
+      <a class="text-lg" href="/"> Home </a>
+    </div>
+    <div class="mr-8 flex-col text-lg">
+      <% if(currentUser) { %>
+        <div class="mb-4">
+          <span class="cursor-pointer"><%= currentUser.username %></span>
+        </div>
+      <% } %>
+      <div class="mb-4">
+        <a class="mr-8" href="/add">Add Song</a>
+      </div>
+      <% if(!currentUser) { %>
+      <div class="auth">
+        <form class="mb-8 cursor-pointer" action="/login">
+          <button class="mr-8">Login</button>
+        </form>
+        <form class="mb-8 cursor-pointer" action="/register">
+          <button>Signup</button>
+        </form>
+        <% } %> <% if(currentUser) { %>
+        <form class="mb-8 cursor-pointer" method="get" action="/logout">
+          <button>Logout</button>
+        </form>
+        <% } %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.getElementById("burger").addEventListener("click", function () {
+    var mobileNav = document.getElementById("mobileNav");
+    if (mobileNav.classList.contains("hidden")) {
+      mobileNav.classList.remove("hidden");
+      setTimeout(function () {
+        mobileNav.classList.add("show");
+      }, 10); // Delay to allow the transition to take effect
+    } else {
+      mobileNav.classList.remove("show");
+      setTimeout(function () {
+        mobileNav.classList.add("hidden");
+      }, 300); // Match the transition duration
+    }
+  });
+
+  document.getElementById("closeNav").addEventListener("click", function () {
+    var mobileNav = document.getElementById("mobileNav");
+    mobileNav.classList.remove("show");
+    setTimeout(function () {
+      mobileNav.classList.add("hidden");
+    }, 300); // Match the transition duration
+  });
+</script>

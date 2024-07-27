@@ -18,6 +18,7 @@
             id="title"
             spellcheck="false"
             placeholder="Enter song title"
+            required
           />
         </div>
         <div class="artist">
@@ -29,6 +30,7 @@
             class="rounded-lg h-8 mb-4 w-3/4 pl-4"
             spellcheck="false"
             placeholder="Artist's name"
+            required
           />
         </div>
         <div class="release mb-8">
@@ -38,7 +40,10 @@
             name="year"
             id="year"
             type="number"
+            min="1900"
+            max="2100"
             placeholder="release year"
+            required
           />
         </div>
         <div class="release mb-8">
@@ -50,6 +55,7 @@
             id="audio"
             type="file"
             placeholder="choose your file"
+            required
           />
         </div>
         <div class="release mb-8">
@@ -60,6 +66,7 @@
             id="coverPic"
             type="file"
             placeholder="choose your file"
+            required
           />
         </div>
         <div class="flex justify-between">

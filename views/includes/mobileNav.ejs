@@ -1,0 +1,27 @@
+<div class="mobNav flex-col h-screen">
+    <div>
+      <a class="text-lg ml-8" href="/"> Home </a>
+    </div>
+    <div class="mr-8 ">
+      <% if(currentUser) { %>
+    <span class="mr-8 cursor-pointer"><%= currentUser.username %></span>
+      <% } %>
+      <a class="mr-8" href="/add">Add Song</a>
+      <% if(!currentUser) { %>
+      <div class="auth inline">
+        <form class="inline" action="/login">
+          <button class="mr-8">Login</button>
+        </form>
+        <form class="inline" action="/register">
+          <button>Signup</button>
+        </form>
+        <% } %> <% if(currentUser) { %>
+  
+        <form class="inline" method="get" action="/logout">
+          <button>Logout</button>
+        </form>
+  
+        <% } %>
+      </div>
+    <div>
+  </div>
