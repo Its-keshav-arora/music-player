@@ -143,14 +143,18 @@ app.get("/register", (req, res) => {
 
 app.post("/register", async (req, res) => {
   let { username, password, email } = req.body;
-  const newUser = new User({ email, username });
-  await User.register(newUser, password);
-  req.login(newUser, (err) => {
-    res.send(err);
-  });
-  // This code will automatically log in the user after registration.
-  res.redirect("/");
+  try {
+    const newUser = new User({ email, username });
+    await User.register(newUser, password);
+    req.login(newUser, (err) => {
+      if (err) return next(err);
+      res.redirect("/");
+    });
+  } catch (e) {
+    res.render("authErr", {e});
+  }
 });
+
 
 // Add Music Route
 app.get("/add", (req, res) => {
