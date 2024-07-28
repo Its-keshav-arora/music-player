@@ -19,8 +19,8 @@
 
 .searchBar
 {
-    width:24rem;
-    min-width: 200px;
+    width:30vw;
+    /* min-width: 300px; */
 }
 
 
@@ -40,9 +40,16 @@
 {
     .searchBar
     {
-        width: 60vw;
+        width: 50vw;
     }
 }
+/* @media(max-width:530px)
+{
+    .searchBar
+    {
+        width: 30vw;
+    }
+} */
 
 .mobNav {
     position: fixed;

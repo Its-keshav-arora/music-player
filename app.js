@@ -109,9 +109,27 @@ app.use(express.urlencoded({ extended: true }));
 
 // Home Route
 app.get("/", async (req, res) => {
-  const songs = await MusicPlayer.find({});
-  res.render("home", { songs });
+  const page = parseInt(req.query.page) || 1;
+  const limit = parseInt(req.query.limit) || 15; // Number of songs per page
+  const skip = (page - 1) * limit;
+
+  try {
+    // Fetch songs from the database with pagination
+    const songs = await MusicPlayer.find().skip(skip).limit(limit);
+    const totalSongs = await MusicPlayer.countDocuments();
+
+    res.render("home", {
+      songs,
+      currentPage: page,
+      totalPages: Math.ceil(totalSongs / limit),
+      limit: limit
+    });
+  } catch (error) {
+    res.status(500).send(error);
+  }
 });
+
+
 
 // playing page route
 app.get("/play/:id", async (req, res) => {
@@ -122,19 +140,27 @@ app.get("/play/:id", async (req, res) => {
 });
 
 // Search Music using Navbar Route:
+// Search Music using Navbar Route:
 app.get("/search", async (req, res) => {
-  let { music } = req.query;
+  console.log(req.query);
+  let { music, song } = req.query;
   music = toUpperCase(music);
-  music = music.trim();
-  // console.log(music);
-  let song = await MusicPlayer.find({ title: music });
-  if(song.length == 0)
-  {
+
+  let results;
+  if (song == "song") {
+    results = await MusicPlayer.find({ title: music });
+  } else if (song == "artist") {
+    results = await MusicPlayer.find({ artist: music });
+  }
+  console.log(results);
+
+  if (results.length == 0) {
     return res.render("notFound");
   }
-  // console.log(song);
-  res.render("search", { song });
+
+  res.render("search", { music: results });
 });
+
 
 // register route
 app.get("/register", (req, res) => {

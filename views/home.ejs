@@ -18,4 +18,32 @@
       <% } %>
     </div>
   </div>
+  
+  <div class="pagination flex justify-center mt-4">
+    <% if (currentPage > 1) { %>
+      <a href="?page=<%= currentPage - 1 %>&limit=<%= limit %>" class="px-4 py-2 border-2 border-white text-white mr-2 rounded">Previous</a>
+    <% } %>
+
+    <% if (currentPage > 3) { %>
+      <a href="?page=1&limit=<%= limit %>" class="px-4 py-2 border-2 border-white text-white rounded">1</a>
+      <% if (currentPage > 4) { %>
+        <span class="px-4 py-2 text-white">...</span>
+      <% } %>
+    <% } %>
+
+    <% for (let i = Math.max(1, currentPage - 2); i <= Math.min(totalPages, currentPage + 2); i++) { %>
+      <a href="?page=<%= i %>&limit=<%= limit %>" class="px-4 mr-2 py-2 border-2 rounded <%= currentPage === i ? 'bg-white text-black' : 'border-white text-white' %>"><%= i %></a>
+    <% } %>
+
+    <% if (currentPage < totalPages - 2) { %>
+      <% if (currentPage < totalPages - 3) { %>
+        <span class="px-4 py-2 text-white">...</span>
+      <% } %>
+      <a href="?page=<%= totalPages %>&limit=<%= limit %>" class="px-4 mr-2 py-2 border-2 border-white text-white rounded"><%= totalPages %></a>
+    <% } %>
+
+    <% if (currentPage < totalPages) { %>
+      <a href="?page=<%= currentPage + 1 %>&limit=<%= limit %>" class="px-4 mr-2 py-2 border-2 border-white text-white rounded">Next</a>
+    <% } %>
+  </div>
 </body>
