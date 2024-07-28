@@ -142,18 +142,16 @@ app.get("/play/:id", async (req, res) => {
 // Search Music using Navbar Route:
 // Search Music using Navbar Route:
 app.get("/search", async (req, res) => {
-  console.log(req.query);
+  // console.log(req.query);
   let { music, song } = req.query;
   music = toUpperCase(music);
 
   let results;
   if (song == "song") {
-    results = await MusicPlayer.find({ title: music });
+    results = await MusicPlayer.find({ title: { $regex: music} });
   } else if (song == "artist") {
-    results = await MusicPlayer.find({ artist: music });
+    results = await MusicPlayer.find({ artist: { $regex: music } });
   }
-  console.log(results);
-
   if (results.length == 0) {
     return res.render("notFound");
   }
