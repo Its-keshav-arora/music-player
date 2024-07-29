@@ -142,9 +142,10 @@ app.get("/play/:id", async (req, res) => {
 // Search Music using Navbar Route:
 // Search Music using Navbar Route:
 app.get("/search", async (req, res) => {
-  // console.log(req.query);
   let { music, song } = req.query;
   music = toUpperCase(music);
+  // console.log(music);
+  // console.log(song);
 
   let results;
   if (song == "song") {
@@ -199,8 +200,10 @@ app.post(
   ]),
   async (req, res) => {
     let { title, artist, year } = req.body;
-    const author = req.user.username;
+    let author = req.user.username;
+    author = toUpperCase(author);
     title = toUpperCase(title);
+    artist = toUpperCase(artist);
     const id = uuidv4();
     let urlSong = "";
     let urlCoverPic = "";
