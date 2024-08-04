@@ -12,9 +12,9 @@
         style="color: #ffffff"
       ></i>
     </button>
-    <button id="next">
-      <img class="h-5" src="/images/Controllers/next.png" alt="" />
-    </button>
+      <button id="next">
+        <img class="h-5" src="/images/Controllers/next.png" alt="" />
+      </button>
   </div>
   <div class="musicBar flex items-center space-x-2">
     <span class="currentTime text-white">0:00</span>
@@ -74,11 +74,6 @@
     }
   });
 
-  // autoplaying the music on windows load:
-  document.addEventListener("DOMContentLoaded", () => {
-    play.click();
-  });
-
   pause.addEventListener("click", () => {
     if (!music.paused) {
       music.pause();
@@ -89,12 +84,12 @@
 
   // restarting the music to the start and automatically playing it
   restart.addEventListener("click", () => {
-    music.currentTime = 0;
-    currentTimeSpan.innerText = formatTime(music.currentTime);
-    music.play();
-    play.classList.add("hidden");
-    pause.classList.remove("hidden");
-  });
+  music.currentTime = 0;
+  currentTimeSpan.innerText = formatTime(music.currentTime);
+  music.play();
+  play.classList.add("hidden");
+  pause.classList.remove("hidden");
+});
 
   // Handling the next button to skip the music to 10 seconds.
   next.addEventListener("click", () => {
@@ -114,6 +109,9 @@
       play.classList.add("hidden");
       pause.classList.remove("hidden");
       music.play();
+
     }, 5000);
   });
+
+
 </script>
